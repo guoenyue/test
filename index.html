@@ -154,11 +154,11 @@
         //ng1中的路由设置方式
         /*
             将路由模块引入到angular.module之后，会在这个angular的实例上挂载一个config方法，通过此方法设置该ng实例的路由模块，具体设置如下
-            app.coonfig(["$routeProvide",function($routeProvider]){
+            app.coonfig(["$routeProvide",function($routeProvider){
                 $routeProvide.when("/",{template:"<div>这个是主页,或者默认页面。</div>"})
                              .when("/test",{template:"<div>这个是test页面</div>",controller:"testCtrl"})
                              .otherwise({redirectTo:"/"});
-            })
+            }])
 
 
             具体的路由配置项：
