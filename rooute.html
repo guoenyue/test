@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="routeApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>run route</title>
+    <script src="./lib/js/angular.min.js"></script>
+    <script src="./lib/js/angular-route.min.js"></script>
+</head>
+
+<body>
+    <div class="navCont">
+        <a href="#/">主页</a>
+        <a href="#/temp">temp页面</a>
+        <a href="#dsj">404</a>
+    </div>
+
+    <div ng-view> </div>
+    <script>
+        var app = angular.module("routeApp", ["ngRoute"]);
+        app.config(["$routeProvider", function($routeProvider) {
+            $routeProvider.when("/", {
+                template: "<div>主页</div>"
+            }).when("/temp", {
+                template: "<div>temp</div>"
+            }).otherwise({
+                redirectTo: "/"
+            })
+        }])
+    </script>
+</body>
+
+</html>
