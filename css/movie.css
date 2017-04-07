@@ -1,0 +1,62 @@
+* {
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+
+.movieBox {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.box {
+    padding: 10px;
+    width: 300px;
+    background-color: #fff;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -ms-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+.box:hover {
+    background-color: rgba(203, 203, 203, 0.8);
+}
+
+.box i {
+    font-style: normal;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.box .name {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.box .desc {
+    float: right;
+}
+
+.actorBox {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: #fff;
+}
+
+.actorwrap {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
+.actorName {
+    text-align: center;
+    display: block;
+    line-height: 20px;
+    font-size: 16px;
+    color: #333;
+}

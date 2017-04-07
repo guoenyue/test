@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>run ng-repeat</title>
+    <script src="./lib/js/angular.min.js"></script>
+</head>
+
+<body ng-controller="boxCtrl">
+    <button ng-click="show('$odd',1)">显示奇数</button>
+    <button ng-click="show('$even',2)">显示偶数</button>
+    <button ng-click="show('$last',3)">显示最后一个</button>
+    <button ng-click="show('$first',4)">显示第一个</button>
+    <button ng-click="show('$middle',5)">显示中间项</button>
+    <div class="wrap">
+        <div class="box" ng-repeat="item in peoples" ng-show="$index==itemIndex">
+            <i>{{$index}}</i>
+            <h2 class="title">{{item.title}}</h2>
+            <p class="desc">{{item.type}}</p>
+        </div>
+    </div>
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller("boxCtrl", ["$scope", function($scope) {
+            $scope.peoples = [{
+                    title: "人民的名义",
+                    type: "反腐剧"
+                }, {
+                    title: "老公们的私房钱",
+                    type: "家庭都市剧"
+                }, {
+                    title: "斗破苍穹",
+                    type: "玄幻修仙"
+                }, {
+                    title: "盗墓笔记",
+                    type: "腐剧"
+                }, {
+                    title: "鬼吹灯",
+                    type: "盗墓剧"
+                }, {
+                    title: "特种兵",
+                    type: "战争"
+                }]
+                // $scope.showItem = true;
+            $scope.data = {
+                showItem: true
+            }
+            $scope.itemIndex = 0;
+            $scope.show = function(type, index) {
+                $scope.data.showItem = type;
+                //console.log(type);
+                $scope.itemIndex = index;
+            }
+        }])
+    </script>
+</body>
+
+</html>

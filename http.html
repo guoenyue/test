@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<base href="./">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>run $http</title>
+    <link rel="stylesheet" href="./css/movie.css">
+    <script type="text/javascript" src="./lib/js/angular.min.js"></script>
+</head>
+
+<body>
+    <div ng-controller="httpCtrl">
+        <div class="movieBox">
+            <div class="box" ng-repeat="item in movies">
+                <i>第{{$index+1}}位</i>
+                <span class="desc">{{item.year}}</span>
+                <h2 class="name">{{item.title}}</h2>
+                <img ng-src="{{item.images['large']}}" ng-alt="{{item.alt}}">
+                <div class="actorBox">
+                    <div class="actorwrap" ng-repeat="actor in item.casts">
+                        <div class="avator"><img ng-src="{{actor.avatars['small']}}" ng-alt="{{actor.alt}}" ng-title="{{actor.alt}}"></div>
+                        <span class="actorName">{{actor.name}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller("httpCtrl", ["$scope", "$http", function($scope, $http) {
+            var api = "http://api.douban.com";
+            var thrater = "/v2/movie/in_theaters";
+
+            window.JSONCALLBACK = function(re, status, xhr) {
+                //console.log(re);
+                $scope.movies = re.subjects;
+            }
+            $http.jsonp(api + thrater + '?callback=JSONCALLBACK').success(function(re, status, xhr) {
+                //console.log(re);
+            }).error(function(err, xhr) {
+                // console.log(err, xhr);
+            });
+
+
+        }]);
+        class sub() {
+
+        }
+    </script>
+</body>
+
+</html>

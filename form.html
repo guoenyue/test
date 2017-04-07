@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>run form ng-messages</title>
+    <style>
+
+    </style>
+    <script src="./lib/js/angular.min.js"></script>
+    <script src="./lib/js/angular-messages.min.js"></script>
+</head>
+
+<body ng-controller="formCtrl">
+    <form method="./index.html" novalidate name="myform" ng-submit="mysubmit()">
+        <input type="text" class="btn" name="username" ng-model="name" ng-minlength="3" ng-maxlength="20" required>
+        <div class="error" ng-messages="myform.username.$error">
+            <div ng-message="required">必须填写该项</div>
+            <div ng-message="minlength">最少填3位字符</div>
+            <div ng-message="maxlength">最多只能填20个字符</div>
+        </div>
+        <input type="submit" value="提交按钮">
+    </form>
+    <script>
+        var app = angular.module("myApp", ["ngMessages"]);
+        app.controller("formCtrl", ["$scope", function() {
+
+        }]);
+
+
+        //ng-messages用法需要外部引入此模块，并有版本限制(1.3+)
+        /*
+            ng-messages使用方法：将form设置为novalidate防止触发浏览器默认的验证方式，其次将提交方式改成ng-submit，并且重点一定要写好对应的
+            的name名称。ng-messages-multiple可以使多条错误信息同时显示，默认不写的话每次显示单条。
+            有关表单控件的设置：
+                    ng-minlength设置最小填入字符长度
+                    ng-maxlength设置最大填入字符长度
+                    required必填项...
+            ng-messages此项设置位于表单错误信息提示框的wrap中其值对应表单控件。例如：myform(表单的name).username(控件的name).$error(固定，
+            此项控件是否有错误，或者不符合填写要求)
+            ng-message此项设置位于表单控件中，区别与ng-messages，它是设置显示控件具体的某条错误信息，其值等于表单控件设置项。
+            若多个控件的错误提示信息高度相似时，可以将提示信息提取成模版文件，并在wrap中使用ng-messages-include引入模版文件。
+
+            自定义验证的实现，可以通过修改$parsers链
+         */
+    </script>
+</body>
+
+</html>

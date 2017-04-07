@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>run directive</title>
+    <script src="./lib/js/angular.min.js"></script>
+</head>
+
+<body>
+    <div ng-controller="parCtrl">
+        <input type="text" ng-model="hi">
+        <p>{{hi}}</p>
+        <my-demo txt="hhh" b="hi" on-show="show()" on-hide="hide()"></my-demo>
+    </div>
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller("parCtrl", ["$scope", function($scope) {
+            $scope.hi = "我是父组件的信息。"
+            $scope.show = function() {
+                alert(22);
+            }
+            $scope.hide = function() {
+                alert(33);
+            }
+        }]);
+        app.directive("myDemo", function() {
+            return {
+                restrict: "E",
+                template: "<div>Hello angularJS,{{txt}},{{tmp}}<input type='text' ng-model='tmp'><button ng-click='onShow()'>点我</button></div>",
+                replace: true,
+                scope: {
+                    txt: "@",
+                    tmp: "=b",
+                    onShow: "&onHide" //此处不加参数会绑定同名属性值对应函数，加参数则会去绑定参数对应属性名所指向函数，上两种绑定方式同理
+                },
+                link: function(scope, ele, attr) {
+                    console.log(scope)
+                }
+            }
+        });
+
+
+
+        /*
+            ng1中directive的作用类似与ng2中Component组件的作用也可以看成ng2中的directive，其中的绑定策略类似于ng2中的组件属性绑定@Input [key]="value",
+            用法较ng2中的不同，有三种绑定策略@，=，&,看起来要比ng2中的组件通信方便一些：
+            "@"直接绑定组件上的属性           类似于@Input
+            "="可以实现父子-子父组件间的通信  类似于@Input+@Output
+            "&"可以绑定组件上的函数
+        */
+    </script>
+</body>
+
+</html>
