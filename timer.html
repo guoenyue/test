@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>test Timer</title>
+</head>
+
+<body>
+    <script src="./js/shims-Visi.js"></script>
+    <script>
+        var timer = null;
+        var storage = window.localStorage;
+        //获取num，此数据作为全页面的唯一数据要实现多页面同步
+        storage['num'] = storage['num'] ? storage['num'] : 0;
+
+
+        //获取页面数组，若是第一个页面则将数组设置为空并添加一个新的，若之前有数组则获取之前的并添加新数据
+        var arr = (storage["timer"] && JSON.parse(storage["timer"])) || [];
+        //设置全局(多页面)唯一页面标识
+        var uniqueTime = "timer" + (new Date()).getTime();
+        //设置页面标识对象，并将此值存储到storage中
+        var myTimer = {
+            "name": uniqueTime
+        };
+        arr.push(myTimer);
+        storage["timer"] = JSON.stringify(arr);
+
+
+
+        //跨窗口通信-数据同步
+        //通过h5的api-storage事件保持数据的同步，有关storage事件的描述参见阮一峰网站：
+        //  http://javascript.ruanyifeng.com/bom/webstorage.html
+        //注意：
+        // 1.兼容性，只能在支持storage的标准浏览器下使用
+        // 2.本地环境下默认跨域，不会触发storage事件
+        // 3.当前页面不会触发自己页的storage事件
+        window.addEventListener("storage", function(e) {
+            clearInterval(window.timer);
+            if (e.key == "num") {
+                //协同数据
+                console.log("跟随其他页面的num变化：" + storage['num']);
+            }
+            //设定title(方便测试，可删除，对程序无影响)
+            document.title = storage['num'];
+            if (e.key == "timer") {
+                if (JSON.parse(storage['timer'])[0].name == myTimer.name) {
+                    window.timer = setInterval(function() {
+                        //这个功能区保持所有页面唯一运行
+                        storage['num'] = ++storage['num'];
+                        console.log(storage['num']);
+                        //设定title(方便测试，可删除，对程序无影响)
+                        document.title = storage['num'];
+                    }, 1000);
+                }
+            }
+        });
+
+        ;
+        // (function() {
+        //     //初始化的时候，自动检测是否在当页使用定时器(another thing)
+        //     test();
+        //     //绑定窗口"可见性改变"事件
+        //     pageVisibility.visibilitychange(test);
+        // })();
+        // //具体执行函数
+        // function test() {
+        //     //获取窗口标记，(是否可见)
+        //     var hiddenTag = pageVisibility.hidden;
+        //     //当前窗口可见
+        //     if (!hiddenTag) {
+        //         //初始化，关闭其他定时器
+        //         clearInterval(timer);
+        //         //设定定时器并在其内设置执行动作
+        //         window.timer = setInterval(function() {
+        //             //这个功能区保持所有页面唯一运行
+        //             storage['num'] = ++storage['num'];
+        //             console.log(storage['num']);
+        //             //设定title(方便测试，可删除，对程序无影响)
+        //             document.title = storage['num'];
+        //         }, 1000);
+        //     } else {
+        //         //当窗口不可见时,关闭当前页定时器
+        //         clearInterval(window.timer);
+        //     }
+        // }
+
+
+        //现在某些浏览器还保留了visibilitychange的前缀，
+        // 例如Chrome浏览器还保留着webkit前缀，
+        // 不过该事件已经趋于稳定，在Chrome 33及以后就去掉了前缀，
+        // 直接使用visibilitychange
+
+        // 注：
+        // （1）微信内置的浏览器因为没有标签，所以不会触发该事件。
+        // （2）手机端直接按Home键回到桌面，也不会触发该事件。
+        // （3）PC端浏览器失去焦点不会触发该事件，但是最小化，或回到桌面会触发。
+
+
+        /*
+            question:数据同步是通过页面的可见性实现的，哪个页面可见哪个页面的定时器就会运行，但是当所有的页面
+            全部不可见时(不可见!==窗口关闭)，会导致所有的定时器停止，所有的页面都会等待storage事件来触发更新
+            数据，显然这种情况是不合理的。
+
+            解决思路:设定一个对象，存到storage中,设定对象的存储属性为窗口可见情况，每次可见或不可见刷新，若窗口
+            销毁(窗口关闭)同时也在存储的数据中将窗口数据移除，然后每次都要触发其他页面的检测函数，看是否有页面
+            为可见，若有可见页面，则将那个页面的定时器开启，若所有页面均不可见，则随机找一个页面，使其定时器运行。
+
+            简化思路：多开页面，单定时器运行，关闭定时器页面，其余页面随机出一个页面运行定时器
+            功能依赖：页面关闭触发函数，同域名页面同步事件
+
+            疑惑:如何判断当前页面，即选中多个页面中的惟一一个页面
+
+            bugs:多窗口均可见如何解决
+        */
+
+
+
+        //当页面打开时，为页面设置一个唯一的标记key：new Date().getTime();
+        //将定时器挂载到与页面关联的对象上{key:date,timer:fn}
+
+
+        //总是在第一个的页面添加定时器
+        if (arr[0].name == myTimer.name) {
+            window.timer = setInterval(function() {
+                //这个功能区保持所有页面唯一运行
+                storage['num'] = ++storage['num'];
+                console.log(storage['num']);
+                //设定title(方便测试，可删除，对程序无影响)
+                document.title = storage['num'];
+            }, 1000);
+        }
+
+        //当页面销毁(关闭)时，清楚定时器，并通知其他页面检索定时器状态
+        window.onunload = function() {
+            var timerArr = JSON.parse(storage["timer"])
+                //清楚
+            var tag = timerArr.forEach(function(item, i, ary) {
+                if (item.name == myTimer.name) {
+                    timerArr.splice(i, 1);
+                }
+            });
+            //清楚定时器，并通知其他页面检索定时器状态
+            storage["timer"] = JSON.stringify(timerArr);
+        }
+    </script>
+</body>
+
+</html>
