@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ng-filter</title>
+</head>
+<body>
+	<script>
+		/*
+			angular1中的过滤器既可以在html中通过"|"方式使用也可以在js代码中通过$filter注入到控制器中，在控制器中
+			通过$filter("name")(any)来对值进行操作(左边这段代码对应html形式为any|name);
+
+			若是过滤器想要给name添加参数在哪里添加？
+				1.在html形式中直接在name后通过冒号直接写即可。如：12345 | currency:"￥"
+				2.在js中实现方式是通过返回函数的第二个参数及其以后的参数来识别。如：$filter("currency")(12345,"￥");
+
+			下面是一个过滤器使用的例子
+			app.controller('testC',function($scope,$filter){
+				$scope.num = $filter('currency')(123534);
+				$scope.date = $filter('date')(new Date()); 
+			}
+		*/
+	</script>
+</body>
+</html>
