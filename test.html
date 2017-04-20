@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            font-size: 0;
+            margin: 0;
+            padding: 0;
+            line-height: 1;
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        }
+        
+        .header {
+            height: 80px;
+            width: 100%;
+            background-color: rgba(3, 3, 3, .4);
+        }
+        
+        .footer {
+            width: 100%;
+            height: 60px;
+            background-color: #ccc;
+        }
+        
+        .content {
+            height: calc(100% - 140px);
+            width: 100%;
+            background-color: #679;
+            padding: 20px 80px;
+        }
+        
+        .box {
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+        }
+        
+        .clearfix:after {
+            content: " ";
+            display: block;
+            visibility: hidden;
+            height: 0;
+            clear: both;
+        }
+        
+        .fl {
+            float: left;
+        }
+        
+        .fr {
+            float: right;
+        }
+        
+        .center {
+            width: 100%;
+        }
+        
+        .lwrap {
+            width: 20%;
+            height: 100%;
+            background-color: #f19;
+        }
+        
+        .rwrap {
+            width: 20%;
+            height: 100%;
+            background-color: #1f9;
+        }
+        
+        .cwrap {
+            width: 100%;
+            height: 100%;
+            background-color: #977;
+            padding: 0 20%;
+        }
+        
+        .lwrap,
+        .rwrap,
+        .cwrap {
+            text-align: center;
+        }
+        
+        .table-m {
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 16px;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <!--<button id="btn">按钮</button>
+    <input type="text" id="txt">
+    <script>
+        "use strict";
+        //输入框实现实施输入类型限定
+        //配合按钮同时实现
+        var btn = document.getElementById("btn");
+        var oTxt = document.getElementById("txt");
+        btn.onclick = function() {
+            //判断元数据，若为数字则加一；反之变成1；
+            oTxt.value = isNaN(oTxt.value) ? 1 : ++oTxt.value;
+        }
+        oTxt.oninput = function(e) {
+            e = e || window.event;
+            var oTar = e.srcElement || e.target;
+            console.log(oTar.value);
+            //此处的value获取到的是新键入的值
+            //取到输入框的值若为非数字则将其置成空;若为满足条件的值(此处为数字)则不进行特殊处理
+            oTar.value = isNaN(parseInt(oTar.value)) ? '' : parseInt(oTar.value);
+            //有个bug，这个玩意不能识别小数点，也就是只能操作整数，不能操作浮点型数字。伤，除非手动
+            //在输入数子之后，再将小数点填入适当的位置，让其总是以数字的形式存在
+        }
+    </script>-->
+
+    <div class="header"></div>
+    <div class="content">
+        <div class="box clearfix">
+            <div class="fl lwrap">
+                <div class="table-m">我是左边<br>我是左边第二行</div>
+            </div>
+            <div class="fr rwrap">
+                <div class="table-m">我是右边<br>我是右边第二行</div>
+            </div>
+            <div class="center cwrap" style="text-align: left;">
+                <div class="table-m">我在中间<br>我是中间第二行</div>
+            </div>
+        </div>
+    </div>
+    <div class="footer"></div>
+</body>
+
+</html>
