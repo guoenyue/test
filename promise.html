@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>promise</title>
+</head>
+<body>
+	<script>
+		//promise 这个类(对象实例化后)会立即执行，并接受2个回调函数类型【function】的参数
+		//第一个回调函数是事件成功之后的回调函数，第二个回调函数是事件失败之后的回调函数
+		//promise只有三种状态:pending、resolve、reject并且第一种状态跟后两种是过渡关系，每次
+		//状态变化【pending->resolve或者pending->reject】都会立即调用相关的回调函数而
+		//且后两种是对立关系，一个promise只能返回2种中的一种状态，他们不需要自己指定，会被
+		//引擎自动指定，所以只需要命名即可，且他的参数会被传到下一个then的形参中作为实参存在
+		
+
+		//如下例子，resolve在time后被调用并且传入了实参"done",所以在外部使用then函数时，then
+		//函数接收的实参就是"done"，也可以认为resolve就是外部then的成功函数【resolve状态】的
+		//指定回调【类似内部cb.call(this,"done")】这样的调用
+
+
+		function timeout(time){
+			return new Promise((resolve,reject)=>{
+				setTimeout(resolve,time,"done");
+			});
+		}
+
+		//如下代码所示，promise的返回中的每一个then还会将一个带有新返回值【需指定】的promise返回出去
+		//所以then可以实现链式调用，接受参数同上，注意then函数是按顺序满足条件立即调用
+
+		timeout(1000)
+		.then((rec)=>{console.log(rec,typeof rec);return rec+" then";})
+		.then((res)=>setTimeout(()=>console.log(res),1000));
+
+
+		
+		//注意这个对象的各个状态需要手动指定情况，告知其该调用哪个函数，并不会智能的判断函数的
+		//resolve或者reject状态函数自动调用，		
+
+		function imgPreLoad(url){
+			return new Promise(function(resolve,reject){
+				var img = new image();
+				img.onload=function(){
+					resolve(img);
+				};
+				img.onerror=function(){
+					reject(new Error("could not find source at "+url));
+				}
+				img.src=url;
+			});
+		}
+
+		//catch(err=>{})函数相当于then(null,(err)=>{});这个函数的简写,用法一样
+		//并且，如果前边的then函数中没有指定reject函数，那么将会在catch函数中
+		//被全部捕获，并且建议不要在then函数中指定reject函数，而通过catch直接捕获
+
+		timeout(1000)
+		.then((res)=>{console.log("received "+res+",but return an error!");iuyiu;})
+		.then((ccc)=>{console.log("success"+ccc)},(err)=>{console.log("err: "+err);ghgh})
+		.catch((error)=>{console.log(error)})
+
+		//Promise.all([<Promise>]),这个函数接收一个Promise数组,用法跟单独的promise差不多
+		//要说明的是，此函数必须等待数组内的所有promise的状态全部转成resolve或者reject后
+		//才会调用后边的then或者catch方法，否则会一直等待数组中所有的promise状态完成
+
+		//与Promise.all相对的是Promise.race函数，这个函数跟上边的all的区别是只要参数数组
+		//的一个promise状态发生改变，那么这个函数就会立即跟随其状态发生改变且会立即调用
+		//后边的对应的回调函数
+
+		//promise提供的2个强制函数：done和finally
+		//done函数是为了接收所有未知异常，而不必再最后指定写一个catch函数的简便函数，其内
+		//部实现就是手动在链式后边添加了一个catch函数来捕获异常
+		//finally函数与上边done函数的区别是可接收一个参数，并且不管promise的状态是什么样子
+		//的，都会在最后调用该函数，保证代码执行
+
+
+	</script>
+</body>
+</html>
