@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Generator</title>
+</head>
+<body>
+	<script>
+		//生成器也叫构造器，语法是function关键字后边加一个*，这个es6支持好像不是很好，没怎么见用过
+		//并且内部有一个yield关键字【类似一个return】定义了每次外部next方法的返回值【object】保存在
+		//返回的对象的value属性上，这个对象有两个属性，一个是value即代表了当次函数返回值【若没有在对
+		//应yield指定则为undefined】。另一个是done<boolean>这个done值的规则是当前返回函数是否是终
+		//止yield【函数自带，非书写指定，即所有的指明yield都执行后的一次】，若为非定义yield调用next则
+		//返回true,否则为false,理论上一个构造器函数可以无限next下去，其失去yield之后的所有返回对象均为
+		//{done:true,value:undefined}
+		function* demoGenerator(m){
+				var a=0,b=1,c;
+				a++;
+				console.log(m);
+			console.log(yield a);
+				m+=1;
+				console.log(m);
+				c=a+b;
+			console.log(yield c);
+				console.log(m);
+				b=0;
+			console.log(yield b);
+			//return "tttt";
+			console.log(yield);
+			return "end";
+		}
+		var m=demoGenerator();
+		console.log("初始化",m);
+		console.log("第1次",m.next());
+		console.log("第2次",m.next());
+		console.log("第3次",m.next());
+		console.log("第4次",m.next());
+		console.log("第5次",m.next());
+		console.log("第6次",m.next());
+
+
+		//如上代码，构造器函数第一次调用会返回一个构造器实例对象，类似构造函数new关键字的作用，但注意
+		//构造函数并不用显式的去调用new关键字实现构造器对象的实例化
+		//在构造器函数中return和yield的区别就是return会阻止代码的向下读取，而yield不会，返回值对象对return
+		//和yield的返回值都会接受保存到value中
+		//有关构造器函数*【星号】的位置，现在没有特别的说明规定，只要在函数function关键字和括号之间即可
+
+		var n=demoGenerator(5);
+		console.log("初始化",n);
+		console.log("第1次",n.next("a"));
+		console.log("第2次",n.next("b"));
+		console.log("第3次",n.next("c"));
+		console.log("第4次",n.next(555));
+		console.log("第5次",n.next(666));
+		console.log("第6次",n.next(777));
+		//有关next方法的参数，该参数将作为上一次yield关键字的返回值存在，具体可运行上例查看n即可，注意第一次运行
+		//的next指定的参数无法找到，因为他没有上一次的yield与之对应，所有从第二次yield对应的next方法的参数才会有效
+		//实例化构造器函数的时候传入的参数将在整个构造器运行的过程中可被形参获取，如第一个例子中的m参数，实例化的
+		//时候传入了实参5,那么在整个构造器函数执行的过程中所有的next方法都可以调用获取到相同的m值【类似闭包】
+
+
+		//构造器实例有一个return方法，可以接受一个参数来充当返回值，并且此函数调用将会立即停止构造器函数的运行，其后
+		//所有的next方法的返回值都将为{value:undefined,done:true}当次的done也为true。
+		//此处有特例，当return方法遇到构造器内部有try{}finally{}语句时，将会推迟到finally之后在执行。
+
+	</script>
+</body>
+</html>
