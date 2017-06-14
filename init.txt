@@ -1,13 +1,14 @@
-##git�����̳�
-	git clone .git        //��Զ����Ŀ��ȡ������
-	git add @file   	      //������[�Ķ�]�ļ����ӵ��ݴ���
-	git commit @file -m "@desc<string>"   //���ݴ�������ļ����ӵ����زֿ⣬��ͨ��-m�����ļ�����
-	git push origin @branch			//�����زֿ��ļ�ͬ����Զ�ֿ̲� ��д����git push��
-						//Ĭ�����͵���ǰ����֧master,������֧����
-	git status 		//�鿴��ǰ��֧ �ݴ���+���زֿ�+�����ļ��ĸĶ��ϴ����
-	git branch @branchname 		//�½���֧
-	git branch              //�鿴��֧״̬
-	git checkout @branchname 	//������ת����branchname�����֧
+##git简明教程
+	git clone .git        //将远程项目拉取到本地
+	git add @file   	      //将本地[改动]文件添加到暂存区
+	git commit @file -m "@desc<string>"   //将暂存区里的文件添加到本地仓库，并通过-m添加文件描述
+	git push origin @branch			//将本地仓库文件同步至远程仓库 简写就是git push，
+						//默认推送到当前主分支master,单条分支可用
+	git status 		//查看当前分支 暂存区+本地仓库+本地文件的改动上传情况
+	git branch @branchname 		//新建分支
+	git branch              //查看分支状态
+	git checkout @branchname 	//将操作转换至branchname这个分支
 
-
-	
+	//额，每次上传完东西之后，如果不在命令行里敲pull/requests请求，那么需要手动到github网站去点请求
+	//每次改动如有需要都要新建一个pull/request，后续上传不会自动发起，需要手动请求。
+	git merge @branchname  //将@branchname分支合并到当前分支，
