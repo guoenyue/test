@@ -17,7 +17,7 @@
     </div>
     <script>
         var app = angular.module("myApp", []);
-        app.controller("parCtrl", ["$scope", function($scope) {
+        app.controller("parCtrl", ["$scope", "$document",function($scope。$document) {
             $scope.hi = "我是父组件的信息。"
             $scope.show = function() {
                 alert(22);
@@ -26,7 +26,7 @@
                 alert(33);
             }
         }]);
-        app.directive("myDemo", function() {
+        app.directive("myDemo", ["$document",function($document) {
             return {
                 restrict: "E",
                 template: "<div>Hello angularJS,{{txt}},{{tmp}}<input type='text' ng-model='tmp'><button ng-click='onShow()'>点我</button></div>",
@@ -37,10 +37,13 @@
                     onShow: "&onHide" //此处不加参数会绑定同名属性值对应函数，加参数则会去绑定参数对应属性名所指向函数，上两种绑定方式同理
                 },
                 link: function(scope, ele, attr) {
-                    console.log(scope)
+                    console.log(scope);
+                    $document.on("click",function(){
+                      alert(23333);
+                    });
                 }
             }
-        });
+        }]);
 
 
 
