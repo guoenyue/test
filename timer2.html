@@ -39,22 +39,22 @@
         // 2.本地环境下默认跨域，不会触发storage事件
         // 3.当前页面不会触发自己页的storage事件
         window.addEventListener("storage", function(e) {
-            clearInterval(window.timer);
             if (e.key == "num") {
                 //协同数据
                 setTimeout(function(){
-                    console.log(storage.getItem('num'));
+                    console.log("我是根据其他tab页面产生的num",storage.getItem('num'));
                     document.title = storage.getItem('num');
                     document.getElementById('oBox').innerHTML=document.title;
                 },10);
             }
             if (e.key == "timer") {
+                clearInterval(window.timer);
                 setTimeout(function(){
                     if (JSON.parse(storage.getItem('timer'))[0].name == myTimer.name) {
                         window.timer = setInterval(function() {
                             //这个功能区保持所有页面唯一运行
                                 storage.setItem('num',1+parseInt(storage.getItem('num')));
-                                console.log(storage.getItem('num'));
+                                console.log("我是自己输出的num:",storage.getItem('num'));
                                 document.title = storage.getItem('num');
                                 document.getElementById('oBox').innerHTML=document.title;
                         }, 1000);
@@ -78,7 +78,7 @@
                 //这个功能区保持所有页面唯一运行
                 storage.setItem('num',1+parseInt(storage.getItem('num')));
                 //设定title(方便测试，可删除，对程序无影响)
-                console.log(storage.getItem('num'));
+                console.log("我是自己输出的num:",storage.getItem('num'));
                 document.title = storage.getItem('num');
                 document.getElementById('oBox').innerHTML=document.title;
             }, 1000);
