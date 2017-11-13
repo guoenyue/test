@@ -53,6 +53,7 @@
                     if (JSON.parse(storage.getItem('timer'))[0].name == myTimer.name) {
                         window.timer = setInterval(function() {
                             //这个功能区保持所有页面唯一运行
+                                storage.setItem('num',1+parseInt(storage.getItem('num')));
                                 console.log(storage.getItem('num'));
                                 document.title = storage.getItem('num');
                                 document.getElementById('oBox').innerHTML=document.title;
