@@ -50,10 +50,11 @@
                 if (JSON.parse(storage.getItem('timer'))[0].name == myTimer.name) {
                     window.timer = setInterval(function() {
                         //这个功能区保持所有页面唯一运行
-                        storage.setItem('num',1+parseInt(storage.getItem('num')));
-                        console.log(storage.getItem('num'));
-                        //设定title(方便测试，可删除，对程序无影响)
-                        document.title = storage.getItem('num');
+                        setTimeout(function(){
+                            console.log(storage.getItem('num'));
+                            document.title = storage.getItem('num');
+                            document.getElementById('oBox').innerHTML=document.title;
+                        },0);
                     }, 1000);
                 }
             }
@@ -73,10 +74,12 @@
             window.timer = setInterval(function() {
                 //这个功能区保持所有页面唯一运行
                 storage.setItem('num',1+parseInt(storage.getItem('num')));
-                console.log(storage.getItem('num'));
                 //设定title(方便测试，可删除，对程序无影响)
-                document.title = storage.getItem('num');
-                document.getElementById('oBox').innerHTML=document.title;
+                setTimeout(function(){
+                    console.log(storage.getItem('num'));
+                    document.title = storage.getItem('num');
+                    document.getElementById('oBox').innerHTML=document.title;
+                },0);
             }, 1000);
         }
 
