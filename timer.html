@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <div id="oBox" style="width:300px;height:200px;color:#f80;margin:0 auto;line-height:200px;font-size: 30px;"></div>
     <script src="./js/shims-Visi.js"></script>
     <script>
         var timer = null;
@@ -130,6 +131,7 @@
                 console.log(storage['num']);
                 //设定title(方便测试，可删除，对程序无影响)
                 document.title = storage['num'];
+                document.getElementById('oBox').innerHTML=document.title;
             }, 1000);
         }
 
