@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>test Timer</title>
+</head>
+
+<body>
+    <div id="oBox" style="width:300px;height:200px;color:#f80;margin:0 auto;line-height:200px;font-size: 30px;"></div>
+    <script src="./js/shims-Visi.js"></script>
+    <script>
+        var timer = null;
+        var storage = window.localStorage;
+        //获取num，此数据作为全页面的唯一数据要实现多页面同步
+        storage.setItem('num',storage.getItem('num') ? storage.getItem('num') : 0);
+
+
+        //获取页面数组，若是第一个页面则将数组设置为空并添加一个新的，若之前有数组则获取之前的并添加新数据
+        var arr = (storage.getItem("timer") && JSON.parse(storage.getItem("timer"))) || [];
+        //设置全局(多页面)唯一页面标识
+        var uniqueTime = "timer" + (new Date()).getTime();
+        //设置页面标识对象，并将此值存储到storage中
+        var myTimer = {
+            "name": uniqueTime
+        };
+        arr.push(myTimer);
+        storage.setItem("timer",JSON.stringify(arr));
+
+
+
+        //跨窗口通信-数据同步
+        //通过h5的api-storage事件保持数据的同步，有关storage事件的描述参见阮一峰网站：
+        //  http://javascript.ruanyifeng.com/bom/webstorage.html
+        //注意：
+        // 1.兼容性，只能在支持storage的标准浏览器下使用
+        // 2.本地环境下默认跨域，不会触发storage事件
+        // 3.当前页面不会触发自己页的storage事件
+        window.addEventListener("storage", function(e) {
+            clearInterval(window.timer);
+            if (e.key == "num") {
+                //协同数据
+                console.log("跟随其他页面的num变化：" + storage.getItem('num'));
+            }
+            //设定title(方便测试，可删除，对程序无影响)
+            document.title = storage.getItem('num');
+            if (e.key == "timer") {
+                if (JSON.parse(storage.getItem('timer'))[0].name == myTimer.name) {
+                    window.timer = setInterval(function() {
+                        //这个功能区保持所有页面唯一运行
+                        storage.setItem('num',++storage.getItem('num'));
+                        console.log(storage.getItem('num'));
+                        //设定title(方便测试，可删除，对程序无影响)
+                        document.title = storage.getItem('num');
+                    }, 1000);
+                }
+            }
+        });
+
+        ;
+        
+
+
+
+        //当页面打开时，为页面设置一个唯一的标记key：new Date().getTime();
+        //将定时器挂载到与页面关联的对象上{key:date,timer:fn}
+
+
+        //总是在第一个的页面添加定时器
+        if (arr[0].name == myTimer.name) {
+            window.timer = setInterval(function() {
+                //这个功能区保持所有页面唯一运行
+                storage.setItem('num',++storage.getItem('num'));
+                console.log(storage.getItem('num'));
+                //设定title(方便测试，可删除，对程序无影响)
+                document.title = storage.getItem('num');
+                document.getElementById('oBox').innerHTML=document.title;
+            }, 1000);
+        }
+
+        //当页面销毁(关闭)时，清楚定时器，并通知其他页面检索定时器状态
+        window.onunload = function() {
+            var timerArr = JSON.parse(storage.getItem("timer"));
+                //清楚
+            var tag = timerArr.forEach(function(item, i, ary) {
+                if (item.name == myTimer.name) {
+                    timerArr.splice(i, 1);
+                }
+            });
+            //清楚定时器，并通知其他页面检索定时器状态
+            storage.setItem("timer",JSON.stringify(timerArr));
+        }
+    </script>
+</body>
+
+</html>
