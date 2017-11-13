@@ -50,7 +50,7 @@
                 if (JSON.parse(storage.getItem('timer'))[0].name == myTimer.name) {
                     window.timer = setInterval(function() {
                         //这个功能区保持所有页面唯一运行
-                        storage.setItem('num',1+storage.getItem('num'));
+                        storage.setItem('num',1+parseInt(storage.getItem('num')));
                         console.log(storage.getItem('num'));
                         //设定title(方便测试，可删除，对程序无影响)
                         document.title = storage.getItem('num');
@@ -72,7 +72,7 @@
         if (arr[0].name == myTimer.name) {
             window.timer = setInterval(function() {
                 //这个功能区保持所有页面唯一运行
-                storage.setItem('num',1+(storage.getItem('num')));
+                storage.setItem('num',1+parseInt(storage.getItem('num')));
                 console.log(storage.getItem('num'));
                 //设定title(方便测试，可删除，对程序无影响)
                 document.title = storage.getItem('num');
