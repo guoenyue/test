@@ -106,6 +106,7 @@
         //     //清除定时器，并通知其他页面检索定时器状态
         //     storage.setItem("timer",JSON.stringify(timerArr));
         // }
+        var _t;
 		window.onbeforeunload = function()  
 			{  
                 var timerArr = JSON.parse(storage.getItem("timer"));
@@ -119,11 +120,12 @@
 				//localStorage.setItem("deleteTimer",JSON.stringify(myTimer));
                 storage.setItem("timer",JSON.stringify(tag));
                 console.log("离开前存储删除后的timer数组");
-			    setTimeout(onunloadcancel, 10);  
+			    setTimeout(function(){_t = setTimeout(onunloadcancel, 10)}, 0); 
 			    return "真的离开?";  
 			}  
 		window.onunloadcancel = function()  
 			{  
+                clearTimeout(_t);
 			    setTimer();
 			}
 
