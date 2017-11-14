@@ -116,7 +116,8 @@
                         timerArr.splice(i, 1);
                     }
                 });
-                tag=tag||[];  
+                console.log(tag);
+                tag=tag||[]; 
 				//localStorage.setItem("deleteTimer",JSON.stringify(myTimer));
                 storage.setItem("timer",JSON.stringify(tag));
                 console.log("离开前存储删除后的timer数组");
