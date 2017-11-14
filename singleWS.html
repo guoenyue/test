@@ -117,6 +117,7 @@
                 });  
 				//localStorage.setItem("deleteTimer",JSON.stringify(myTimer));
                 storage.setItem("timer",JSON.stringify(tag));
+                console.log("离开前存储删除后的timer数组");
 			    setTimeout(onunloadcancel, 10);  
 			    return "真的离开?";  
 			}  
