@@ -15,6 +15,7 @@
         //获取num，此数据作为全页面的唯一数据要实现多页面同步
         storage.setItem('num',storage.getItem('num') ? storage.getItem('num') : 0);
         setTimer();
+        checkTimer();
         //跨窗口通信-数据同步
         //通过h5的api-storage事件保持数据的同步，有关storage事件的描述参见阮一峰网站：
         //  http://javascript.ruanyifeng.com/bom/webstorage.html
@@ -79,7 +80,7 @@
             var timerArr = JSON.parse(storage.getItem("timer"));
                 //清楚
             var tag = timerArr.forEach(function(item, i, ary) {
-                if (item.name == JSON.parse(storage.getItem("deleteTimer"))) {
+                if (item.name == JSON.parse(storage.getItem("deleteTimer")).name) {
                     timerArr.splice(i, 1);
                 }
             });
@@ -107,7 +108,7 @@
 		window.onbeforeunload = function()  
 			{  
 				//这是用来设定一个时间, 时间到了, 就会执行一个指定的 method。  
-				localStorage.setItem("deleteTimer",myTimer);
+				localStorage.setItem("deleteTimer",JSON.stringify(myTimer));
 			    setTimeout(onunloadcancel, 10);  
 			    return "真的离开?";  
 			}  
