@@ -111,7 +111,7 @@
                 var timerArr = JSON.parse(storage.getItem("timer"));
                     //清除
                 var tag = timerArr.forEach(function(item, i, ary) {
-                    if (item.name == JSON.parse(storage.getItem("deleteTimer")).name) {
+                    if (item.name == myTimer.name) {
                         timerArr.splice(i, 1);
                     }
                 });  
