@@ -120,6 +120,7 @@
 			}  
 		window.onunloadcancel = function()  
 			{  
+                console.log('即使是刷新成功我也会被调用，这个就真的尴尬了');
                 clearTimeout(_t);
 			    setTimer();
 			}
