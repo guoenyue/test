@@ -54,6 +54,7 @@
         //将定时器挂载到与页面关联的对象上{key:date,timer:fn}
 
         function setTimer(){
+            console.log("调用了一次更新myTimer函数");
 	        //获取页面数组，若是第一个页面则将数组设置为空并添加一个新的，若之前有数组则获取之前的并添加新数据
 	        var arr = (storage.getItem("timer") && JSON.parse(storage.getItem("timer"))) || [];
 	        //设置全局(多页面)唯一页面标识
