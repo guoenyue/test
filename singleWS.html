@@ -115,7 +115,7 @@
                 timerArr=timerArr||[]; 
 				//storage.setItem("deleteTimer",JSON.stringify(myTimer));
                 storage.setItem("timer",JSON.stringify(timerArr));
-			    setTimeout(function(){_t = setTimeout(onunloadcancel, 10)}, 0); 
+			    setTimeout(function(){_t = setTimeout(onunloadcancel, 10)}, 100); 
 			    return "真的离开?";  
 			}  
 		window.onunloadcancel = function()  
