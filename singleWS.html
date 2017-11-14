@@ -27,6 +27,7 @@
         	switch(e.key){
         		case "num":
 	                setTimeout(function(){
+                        console.log("我是根据其他tab页面产生的num",storage.getItem('num'));
 	                	runTimer();
 	                },10);
         		break;
@@ -71,44 +72,51 @@
 	            window.timer = setInterval(function() {
 	                //这个功能区保持所有页面唯一运行
 	                storage.setItem('num',1+parseInt(storage.getItem('num')));
+                    console.log("我是当前tab页面产生的num",storage.getItem('num'));
 	                runTimer();
 	            }, 1000);
 	        }	
         };
         function deleteTimer(){
         	console.log("触发了删除timer");
-            var timerArr = JSON.parse(storage.getItem("timer"));
-                //清楚
-            var tag = timerArr.forEach(function(item, i, ary) {
-                if (item.name == JSON.parse(storage.getItem("deleteTimer")).name) {
-                    timerArr.splice(i, 1);
-                }
-            });
+            // var timerArr = JSON.parse(storage.getItem("timer"));
+            //     //清除
+            // var tag = timerArr.forEach(function(item, i, ary) {
+            //     if (item.name == JSON.parse(storage.getItem("deleteTimer")).name) {
+            //         timerArr.splice(i, 1);
+            //     }
+            // });
             checkTimer();
         };
         function runTimer(){
-            console.log("我是根据其他tab页面产生的num",storage.getItem('num'));
             document.title = storage.getItem('num');
             document.getElementById('oBox').innerHTML=document.title;
         }
 
 
-        // //当页面销毁(关闭)时，清楚定时器，并通知其他页面检索定时器状态
+        // //当页面销毁(关闭)时，清除定时器，并通知其他页面检索定时器状态
         // window.onunload = function() {
         //     var timerArr = JSON.parse(storage.getItem("timer"));
-        //         //清楚
+        //         //清除
         //     var tag = timerArr.forEach(function(item, i, ary) {
         //         if (item.name == myTimer.name) {
         //             timerArr.splice(i, 1);
         //         }
         //     });
-        //     //清楚定时器，并通知其他页面检索定时器状态
+        //     //清除定时器，并通知其他页面检索定时器状态
         //     storage.setItem("timer",JSON.stringify(timerArr));
         // }
 		window.onbeforeunload = function()  
 			{  
-				//这是用来设定一个时间, 时间到了, 就会执行一个指定的 method。  
-				localStorage.setItem("deleteTimer",JSON.stringify(myTimer));
+                var timerArr = JSON.parse(storage.getItem("timer"));
+                    //清除
+                var tag = timerArr.forEach(function(item, i, ary) {
+                    if (item.name == JSON.parse(storage.getItem("deleteTimer")).name) {
+                        timerArr.splice(i, 1);
+                    }
+                });  
+				//localStorage.setItem("deleteTimer",JSON.stringify(myTimer));
+                storage.setItem("timer",JSON.stringify(tag));
 			    setTimeout(onunloadcancel, 10);  
 			    return "真的离开?";  
 			}  
