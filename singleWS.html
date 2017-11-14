@@ -111,6 +111,7 @@
 			{  
                 var timerArr = JSON.parse(storage.getItem("timer"));
                     //清除
+                storage.setItem("deleteTimer",JSON.stringify(myTimer));
                 var olderTimerName=JSON.parse(storage.getItem("deleteTimer")).name||'';
                 timerArr.forEach(function(item, i, ary) {
                     console.log(item.name,myTimer.name);
@@ -120,7 +121,7 @@
                 });
                 console.log(myTimer,timerArr);
                 timerArr=timerArr||[]; 
-				localStorage.setItem("deleteTimer",JSON.stringify(myTimer));
+				//storage.setItem("deleteTimer",JSON.stringify(myTimer));
                 storage.setItem("timer",JSON.stringify(timerArr));
                 console.log("离开前存储删除后的timer数组");
                 debugger;
