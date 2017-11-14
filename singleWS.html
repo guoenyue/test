@@ -16,31 +16,24 @@
         storage.setItem('num',storage.getItem('num') ? storage.getItem('num') : 0);
         setTimer();
         checkTimer();
-        //跨窗口通信-数据同步
-        //通过h5的api-storage事件保持数据的同步，有关storage事件的描述参见阮一峰网站：
-        //  http://javascript.ruanyifeng.com/bom/webstorage.html
-        //注意：
-        // 1.兼容性，只能在支持storage的标准浏览器下使用
-        // 2.本地环境下默认跨域，不会触发storage事件
-        // 3.当前页面不会触发自己页的storage事件
+
         window.addEventListener("storage", function(e) {
         	switch(e.key){
         		case "num":
-	                setTimeout(function(){
-                        console.log("我是根据其他tab页面产生的num",storage.getItem('num'));
+	               // setTimeout(function(){
 	                	runTimer();
-	                },10);
+	               // },10);
         		break;
         		case "timer":
 	                clearInterval(window.timer);
-	                setTimeout(function(){
+	               // setTimeout(function(){
 	                    checkTimer();
-	                },10);
+	               // },10);
         		break;
         		case "deleteTimer":
-	                setTimeout(function(){
+	               // setTimeout(function(){
 	                	deleteTimer();
-	            	},10);
+	            	//},10);
         		break;
         		default:
         		break;
@@ -73,7 +66,6 @@
 	            window.timer = setInterval(function() {
 	                //这个功能区保持所有页面唯一运行
 	                storage.setItem('num',1+parseInt(storage.getItem('num')));
-                    console.log("我是当前tab页面产生的num",storage.getItem('num'));
 	                runTimer();
 	            }, 1000);
 	        }	
@@ -120,12 +112,9 @@
                         timerArr.splice(i, 1);
                     }
                 });
-                console.log(myTimer,timerArr);
                 timerArr=timerArr||[]; 
 				//storage.setItem("deleteTimer",JSON.stringify(myTimer));
                 storage.setItem("timer",JSON.stringify(timerArr));
-                console.log("离开前存储删除后的timer数组");
-                debugger;
 			    setTimeout(function(){_t = setTimeout(onunloadcancel, 10)}, 0); 
 			    return "真的离开?";  
 			}  
